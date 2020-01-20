@@ -1,0 +1,23 @@
+		Security.php
+
+		This project addresses PART of the security problem with php
+	and an SQL database.
+
+		The part looked at here is how to only allow access to forms
+	and pages on a site to logged in users.
+
+	index.php is a form asking for username and password.
+login_process.php reads users from the database and checks if the
+username and password given are in the data. If they are then a
+#SESSION variable is set with the users' username. All pages that
+need to be secure then include security.php
+
+	security.php checks for the presence of the session variable
+holding the uername, and if not present bouches the user back to the
+log in page.
+
+	NOTE: session variables are like global variables in as much as
+they are accessible in all web pages being accessed by the same web
+client (a browser, normally) pulling pages from the server by http or
+https.
+
