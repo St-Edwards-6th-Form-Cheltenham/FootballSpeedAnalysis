@@ -8,8 +8,11 @@
 unsigned int doppler_div = 190;
 unsigned int samples[AVERAGE];
 unsigned int dataset[DATASETSIZE];
+// loop counters
 
 unsigned int x;
+unsigned int z;
+unsigned int i;
 
 void setup() {
   Serial.begin(9600);
@@ -17,8 +20,8 @@ void setup() {
 }
 
 void shareData() {
-  for (z=1; z < DATASETSIZE]; z++){
-    Ttime = dataset[z];
+  for (z=1; z < DATASETSIZE; z++){
+    unsigned int Ttime = dataset[z];
     unsigned int Freq = 1000000 / Ttime;
 
     #ifdef PYTHON_OUTPUT
@@ -35,13 +38,13 @@ void shareData() {
   
 }
 
-void buildDataSet(){
+unsigned int buildDataSet(unsigned int newPoint){
   // add the data to an array with all the data in it.
-  unsigned int Ttime = nbPulsesTime / AVERAGE;
+  unsigned int Ttime = newPoint / AVERAGE;
   dataset[i] = Ttime;
 }
 
-bool getDataPoint() {
+unsigned int getDataPoint() {
   noInterrupts();
   pulseIn(PIN_NUMBER, HIGH);
   unsigned int pulse_length = 0;
@@ -62,21 +65,21 @@ bool getDataPoint() {
     if ((samples[x] > samples[0] * 2) || (samples[x] < samples[0] / 2))
     {
       samples_ok = false;
-      return False;
+      return 0;
     }
   }
 
   if (samples_ok)
   {
-    return True;
+    return samples[x];
   }
 }
 
 void loop() {
 for (i = 1; i < DATASETSIZE; i++){
-  if getDataPoint(){
+  if (getDataPoint() != 0){
   // add last data point to the data set.
-    buildDataSet();
+    buildDataSet(getDataPoint);
   }
 
   else {
